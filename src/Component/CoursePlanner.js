@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import Button from "./Button";
 import CourseCart from "./CourseCart";
 
 const CoursePlanner = () => {
   const [courseData, setterCourseData] = useState([]);
+  const nameRef = useRef()
+  const hoursRef = useRef()
 
   const onClickHandler = () => {
     // Extract the value of course name
-    const courseName = document.getElementById("course-name").value;
+    const courseName = nameRef.current.value;
 
     // Extract the value of hours
-    const courseHour = document.getElementById("course-hours").value;
+    const courseHour = hoursRef.current.value;
 
-    //Approtch 1
+    //Approach 1
     {
       // create a object out of it
       // const newCourseData = {
@@ -29,15 +31,24 @@ const CoursePlanner = () => {
     // data.push(newCourseData);
     // setterCourseData(data);
 
-    //Approtch 2
-    const dataToUpdate = [
-      ...courseData,
+    if (courseName.length === 0 || courseHour.length === 0) {
+      alert('Select CourseName and CourseHours')
+
+    } else {
+      //Approach 2
+      const dataToUpdate = [...courseData,
       {
         name: courseName,
         hour: courseHour,
       },
-    ];
-    setterCourseData(dataToUpdate);
+      ];
+      setterCourseData(dataToUpdate);
+      nameRef.current.value = ''
+      hoursRef.current.value = ''
+    }
+
+
+
   };
 
   return (
@@ -45,8 +56,8 @@ const CoursePlanner = () => {
       <div style={{ textAlign: "center" }}>
         <h1>Geekster Course CoursePlanner</h1>
         <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
-          <input id="course-name" type="text" placeholder="Enter Skills" />
-          <input id="course-hours" type="number" placeholder="Enter Hours" />
+          <input ref={nameRef} type="text" placeholder="Enter Skills" />
+          <input ref={hoursRef} type="number" placeholder="Enter Hours" />
           <Button
             onClick={onClickHandler}
             color="#FFFFFF"

@@ -33,10 +33,11 @@ const CourseCart = ({ name, hour, key }) => {
           height="2re"
           marginLeft="5px"
           onClick={() => {
-            updateHourValue(hourValue - 1);
+            updateHourValue(hourValue > 0 ? hourValue - 1 : 0);
+            // updateHourValue(prev => prev > 0 ? prev - 1 : 0);
           }}
         >
-          -
+          --
         </Button>
       </div>
     </div>
